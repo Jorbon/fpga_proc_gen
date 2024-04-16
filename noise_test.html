@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script defer>
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+
+let canvas, ctx;
+
+let sample_array = [];
+for (let i = 0; i < 32; i++) {
+    //for (let j = i; j < 32; j++) {
+        sample_array.push(i);
+    //}
+}
+
+let seed = (2 * Math.random() - 1) * 0x7fffffff;
+let shuffles = [];
+for (let i = 0; i < 8; i++) {
+    let array = [];
+    for (let j = 0; j < 32; j++) array.push(sample_array[Math.floor(Math.random() * sample_array.length)]);
+    shuffles.push(array);
+}
+
+window.addEventListener("load", event => {
+    canvas = document.getElementById("canvas");
+    canvas.width = 1000;
+    canvas.height = 800;
+    ctx = canvas.getContext("2d");
+    
+    draw(seed, shuffles);
+});
+
+
+
+
+
+
+
+function hash(v, seed) {
+    // No precomputed gradients mean this works for any number of grid coordinates
+    let a = (v[0] ^ (seed & 0xffff)), b = (v[1] ^ ((seed >> 16) & 0xffff));
+    a = (a * 3284157443) & 0xffffffff;
+    b ^= a << 16 | a >> 16;
+    b = (b * 1911520717) & 0xffffffff;
+    a ^= b << 16 | b >> 16;
+    a = (a * 2048419325) & 0xffffffff;
+    let random = a / 0xffffffff * 2 * 3.14159265;
+    return [Math.cos(random), Math.sin(random)];
+}
+
+function inthash(a, seed, shuffles) {
+    a ^= seed;
+    
+    for (let shuffle of shuffles) {
+        let b = 0;
+        for (let i = 0; i < 32; i++) {
+            b |= ((a >> shuffle[i]) & 1) << i;
+        }
+        a ^= b;
+    }
+    
+    return a;
+}
+
+function hash2(v, seed, shuffles) {
+    let n = 0;
+    for (let i = 0; i < 16; i++) {
+        n |= ((v[0] & (1 << i)) << i) | ((v[1] & (1 << i)) << (i + 1));
+    }
+    
+    n = inthash(n, seed, shuffles);
+    
+    let a = 0;
+    let b = 0;
+    for (let i = 0; i < 16; i++) {
+        a |= (n & (1 << (2*i))) >> i;
+        b |= (n & (1 << (2*i + 1))) >> (i + 1);
+    }
+    
+    let x = (a & 0xffff) / 0x7fff - 1;
+    let y = (b & 0xffff) / 0x7fff - 1;
+    return [x, y];
+}
+
+
+
+
+
+function lerp(a, b, t) {
+    return a + t * (b - a);
+}
+
+function perlin(x, y, seed, shuffles) {
+    let fx = Math.floor(x);
+    let fy = Math.floor(y);
+    let [agx, agy] = hash2([fx, fy], seed, shuffles);
+    let [bgx, bgy] = hash2([fx + 1, fy], seed, shuffles);
+    let [cgx, cgy] = hash2([fx, fy + 1], seed, shuffles);
+    let [dgx, dgy] = hash2([fx + 1, fy + 1], seed, shuffles);
+    let sx = x - fx;
+    let sy = y - fy;
+    let r2 = 1.0;
+    let p = 2;
+    let av = Math.max(0, r2 - (sx*sx + sy*sy))**p * (sx*agx + sy*agy);
+    let bv = Math.max(0, r2 - ((sx-1)*(sx-1) + sy*sy))**p * ((sx-1)*bgx + sy*bgy);
+    let cv = Math.max(0, r2 - (sx*sx + (sy-1)*(sy-1)))**p * (sx*cgx + (sy-1)*cgy);
+    let dv = Math.max(0, r2 - ((sx-1)*(sx-1) + (sy-1)*(sy-1)))**p * ((sx-1)*dgx + (sy-1)*dgy);
+    return av + bv + cv + dv;
+}
+
+function draw(seed, shuffles) {
+    for (let x = 0; x < canvas.width; x += 4) {
+        for (let y = 0; y < canvas.height; y += 4) {
+            let v = 0.5 + 1 * (perlin(x / 100 - 4, y / 100 - 4, seed, shuffles));
+            if (Math.abs(v - 0.5) < 0.01) ctx.fillStyle = "#00ff00";
+            else ctx.fillStyle = `rgb(${255*v}, ${255*v}, ${255*v})`;
+            ctx.fillRect(x, y, 4, 4);
+        }
+    }
+}
+
+
+
+
+
+function simplex_noise(x, y, seed, shuffles) {
+    let f = (Math.sqrt(2 + 1) - 1) / 2;
+    let g = (1 - 1 / Math.sqrt(2 + 1)) / 2;
+    let xt = x + (x + y) * f;
+    let yt = y + (x + y) * f;
+    let axt = Math.floor(xt);
+    let ayt = Math.floor(yt);
+    let cxt = axt + 1;
+    let cyt = ayt + 1;
+    let bxt, byt;
+    if (xt - axt > yt - ayt) {
+        bxt = axt + 1;
+        byt = ayt;
+    } else {
+        bxt = axt;
+        byt = ayt + 1;
+    }
+    let ax = axt - (axt + ayt) * g;
+    let ay = ayt - (axt + ayt) * g;
+    let bx = bxt - (bxt + byt) * g;
+    let by = byt - (bxt + byt) * g;
+    let cx = cxt - (cxt + cyt) * g;
+    let cy = cyt - (cxt + cyt) * g;
+    let r2 = 0.8;
+    let [agx, agy] = hash([axt, ayt], seed, shuffles);
+    let [bgx, bgy] = hash([bxt, byt], seed, shuffles);
+    let [cgx, cgy] = hash([cxt, cyt], seed, shuffles);
+    let dax = (x - ax);
+    let day = (y - ay);
+    let dbx = (x - bx);
+    let dby = (y - by);
+    let dcx = (x - cx);
+    let dcy = (y - cy);
+    let av = Math.max(0, r2 - (dax**2 + day**2))**4 * (dax*agx + day*agy);
+    let bv = Math.max(0, r2 - (dbx**2 + dby**2))**4 * (dbx*bgx + dby*bgy);
+    let cv = Math.max(0, r2 - (dcx**2 + dcy**2))**4 * (dcx*cgx + dcy*cgy);
+    return av + bv + cv;
+}
+
+
+    </script>
+</head><body>
+    <canvas id="canvas"></canvas>
+</body>
+</html>
+
+
+
+
+
+
+
