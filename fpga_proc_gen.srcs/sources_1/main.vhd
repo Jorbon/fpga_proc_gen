@@ -40,8 +40,9 @@ architecture behavior of main is
     component display_controller is
         port (
             sx, sy : in unsigned(11 downto 0);
-            r, g, b : out unsigned(3 downto 0);
-            px, py : in signed(31 downto 0)
+            px, py : in signed(31 downto 0);
+            seed : in std_logic_vector(31 downto 0);
+            r, g, b : out unsigned(3 downto 0)
         );
     end component;
     
@@ -75,11 +76,12 @@ begin
     dc: display_controller port map (
         sx => sx,
         sy => sy,
+        px => px,
+        py => py,
+        seed => "00100001110100111101111010010110",
         r => dc_r,
         g => dc_g,
-        b => dc_b,
-        px => px,
-        py => py
+        b => dc_b
     );
     
     vga_r <= std_logic_vector(dc_r) when inbounds else "0000";
