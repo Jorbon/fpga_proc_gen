@@ -1,2 +1,4 @@
 *.cache
 *.runs
+fpga_proc_gen.ip_user_files/ipstatic
+fpga_proc_gen.sim

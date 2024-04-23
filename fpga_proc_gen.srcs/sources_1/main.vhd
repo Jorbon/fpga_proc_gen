@@ -17,76 +17,106 @@ end entity main;
 
 architecture behavior of main is
     
-    component vga_driver is
-        generic (
-            width : natural := 1920;
-            height : natural := 1080;
-            h_front_porch : natural := 88;
-            h_sync_width : natural := 44;
-            h_back_porch : natural := 148;
-            v_front_porch : natural := 4;
-            v_sync_width : natural := 5;
-            v_back_porch : natural := 36
-        );
+    component clk_wiz_0 is
         port (
-            board_clk : in std_logic;
-            reset, enable : in std_logic;
-            x, y : out unsigned(11 downto 0);
-            inbounds : out boolean;
-            hsync, vsync : out std_logic
+            clk_in1, reset : in std_logic;
+            clk_out1 : out std_logic
         );
     end component;
     
-    component display_controller is
+    component pixel_instancer is
+        generic (
+            width : natural := 2250
+        );
         port (
             sx, sy : in unsigned(11 downto 0);
             px, py : in signed(31 downto 0);
-            seed : in std_logic_vector(31 downto 0);
-            r, g, b : out unsigned(3 downto 0)
+            x_even, x_odd, y : out signed(31 downto 0)
         );
     end component;
     
+    component perlin_noise is
+        port (
+            clk : in std_logic;
+            x, y : in signed(31 downto 0);
+            seed : in std_logic_vector(31 downto 0);
+            value : out signed(18 downto 0) -- +2.16
+        );
+    end component;
+    
+    constant seed : std_logic_vector(31 downto 0) := "00100001110100111101111010010110";
+    
+    constant width : natural := 1920;
+    constant height : natural := 1080;
+    constant h_front_porch : natural := 88;
+    constant h_sync_width : natural := 44;
+    constant h_back_porch : natural := 148;
+    constant v_front_porch : natural := 4;
+    constant v_sync_width : natural := 5;
+    constant v_back_porch : natural := 36;
+    
+    
     signal reset, enable : std_logic;
     
-    signal sx, sy : unsigned(11 downto 0);
+    signal pixel_clk : std_logic;
+    signal sx, sy : unsigned(11 downto 0) := (others => '0');
     signal inbounds : boolean;
-    signal dc_r, dc_g, dc_b : unsigned(3 downto 0);
-    signal vsync : std_logic;
+    signal hsync, vsync : std_logic;
+    signal r, g, b : unsigned(3 downto 0);
     
     constant speed : natural := 4;
     signal px, py : signed(31 downto 0) := (others => '0');
+    
+    signal x_even, x_odd, y : signed(31 downto 0);
+    signal v_even, v_odd, v : signed(18 downto 0); -- +2.16
+    
 begin
     
     reset <= not cpu_reset;
     enable <= not sw(15);
     
-    vd: vga_driver port map (
-        board_clk => clk,
+    clk_transform: clk_wiz_0 port map (
+        clk_in1 => clk, -- 100 MHz
         reset => reset,
-        enable => enable,
-        x => sx,
-        y => sy,
-        inbounds => inbounds,
-        hsync => vga_hs,
-        vsync => vsync
+        clk_out1 => pixel_clk -- 148.5 MHz
     );
     
+    
+    process (pixel_clk)
+    begin if rising_edge(pixel_clk) then
+        if reset = '1' then
+            sx <= (others => '0');
+            sy <= (others => '0');
+        elsif enable = '1' then
+            if sx = width + h_front_porch + h_sync_width + h_back_porch then
+                sx <= (others => '0');
+                if sy = height + v_front_porch + v_sync_width + v_back_porch then
+                    sy <= (others => '0');
+                else
+                    sy <= sy + 1;
+                end if;
+            else
+                sx <= sx + 1;
+            end if;
+        end if;
+    end if; end process;
+    
+    inbounds <= sx < width and sy < height and reset = '0' and enable = '1';
+    
+    hsync <= '1' when
+             sx >= (width + h_front_porch) and
+             sx < (width + h_front_porch + h_sync_width) and
+             reset = '0' and enable = '1'
+             else '0';
+    vsync <= '1' when
+             sy >= (height + v_front_porch) and
+             sy < (height + v_front_porch + v_sync_width) and
+             reset = '0' and enable = '1'
+             else '0';
+    
+    vga_hs <= hsync;
     vga_vs <= vsync;
     
-    dc: display_controller port map (
-        sx => sx,
-        sy => sy,
-        px => px,
-        py => py,
-        seed => "00100001110100111101111010010110",
-        r => dc_r,
-        g => dc_g,
-        b => dc_b
-    );
-    
-    vga_r <= std_logic_vector(dc_r) when inbounds else "0000";
-    vga_g <= std_logic_vector(dc_g) when inbounds else "0000";
-    vga_b <= std_logic_vector(dc_b) when inbounds else "0000";
     
     
     process (vsync)
@@ -107,6 +137,51 @@ begin
             end if;
         end if;
     end if; end process;
+    
+    
+    
+    pi: pixel_instancer
+        generic map (
+            width => width + h_front_porch + h_sync_width + h_back_porch
+        )
+        port map (
+            sx => sx,
+            sy => sy,
+            px => px,
+            py => py,
+            x_even => x_even,
+            x_odd => x_odd,
+            y => y
+        );
+    
+    n_even: perlin_noise port map (
+        clk => not sx(0),
+        x => x_even(23 downto 0) & "00000000",
+        y => y(23 downto 0) & "00000000",
+        seed => seed,
+        value => v_even
+    );
+    
+    n_odd: perlin_noise port map (
+        clk => sx(0),
+        x => x_odd(23 downto 0) & "00000000",
+        y => y(23 downto 0) & "00000000",
+        seed => seed,
+        value => v_odd
+    );
+    
+    v <= v_even when sx(0) = '0' else v_odd;
+    
+    r <= unsigned((not v(18)) & v(15 downto 13));
+    g <= unsigned((not v(18)) & v(15 downto 13));
+    b <= unsigned((not v(18)) & v(15 downto 13));
+    
+    vga_r <= std_logic_vector(r) when inbounds else "0000";
+    vga_g <= std_logic_vector(g) when inbounds else "0000";
+    vga_b <= std_logic_vector(b) when inbounds else "0000";
+    
+    
+    
     
 end architecture behavior;
 

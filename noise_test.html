@@ -102,10 +102,10 @@ function lerp(a, b, t) {
 function perlin(x, y, seed, shuffles) {
     let fx = Math.floor(x);
     let fy = Math.floor(y);
-    let [agx, agy] = hash2([fx, fy], seed, shuffles);
-    let [bgx, bgy] = hash2([fx + 1, fy], seed, shuffles);
-    let [cgx, cgy] = hash2([fx, fy + 1], seed, shuffles);
-    let [dgx, dgy] = hash2([fx + 1, fy + 1], seed, shuffles);
+    let [agx, agy] = hash([fx, fy], seed, shuffles);
+    let [bgx, bgy] = hash([fx + 1, fy], seed, shuffles);
+    let [cgx, cgy] = hash([fx, fy + 1], seed, shuffles);
+    let [dgx, dgy] = hash([fx + 1, fy + 1], seed, shuffles);
     let sx = x - fx;
     let sy = y - fy;
     let r2 = 1.0;
@@ -118,12 +118,14 @@ function perlin(x, y, seed, shuffles) {
 }
 
 function draw(seed, shuffles) {
-    for (let x = 0; x < canvas.width; x += 4) {
-        for (let y = 0; y < canvas.height; y += 4) {
-            let v = 0.5 + 1 * (perlin(x / 100 - 4, y / 100 - 4, seed, shuffles));
-            if (Math.abs(v - 0.5) < 0.01) ctx.fillStyle = "#00ff00";
-            else ctx.fillStyle = `rgb(${255*v}, ${255*v}, ${255*v})`;
-            ctx.fillRect(x, y, 4, 4);
+    for (let x = 0; x < canvas.width; x += 1) {
+        for (let y = 0; y < canvas.height; y += 1) {
+            let r = 0.5 + 1 * (perlin(x / 100, y / 100, seed, shuffles) + perlin((x + 15467) / 50, (y + 9864) / 50, seed, shuffles) / 2 + perlin((x + 3864) / 25, (y + 5683) / 25, seed, shuffles) / 4 + perlin((x + 8723) / 12.5, (y + 2378) / 12.5, seed, shuffles) / 8);
+            let g = 0.5 + 1 * (perlin(x / 100, y / 100, seed + 18955519289, shuffles) + perlin((x + 15467) / 50, (y + 9864) / 50, seed + 18955519289, shuffles) / 2 + perlin((x + 3864) / 25, (y + 5683) / 25, seed + 18955519289, shuffles) / 4 + perlin((x + 8723) / 12.5, (y + 2378) / 12.5, seed + 18955519289, shuffles) / 8);
+            let b = 0.5 + 1 * (perlin(x / 100, y / 100, seed - 1589598521, shuffles) + perlin((x + 15467) / 50, (y + 9864) / 50, seed - 1589598521, shuffles) / 2 + perlin((x + 3864) / 25, (y + 5683) / 25, seed - 1589598521, shuffles) / 4 + perlin((x + 8723) / 12.5, (y + 2378) / 12.5, seed - 1589598521, shuffles) / 8);
+            /*if (Math.abs(v - 0.5) < 0.01) ctx.fillStyle = "#00ff00";
+            else*/ ctx.fillStyle = `rgb(${255*r}, ${255*g}, ${255*b})`;
+            ctx.fillRect(x, y, 1, 1);
         }
     }
 }
