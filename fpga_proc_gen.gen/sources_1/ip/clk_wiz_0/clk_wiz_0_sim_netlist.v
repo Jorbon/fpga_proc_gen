@@ -2,7 +2,7 @@
 // Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2023.2 (win64) Build 4029153 Fri Oct 13 20:14:34 MDT 2023
-// Date        : Sat Apr 13 17:09:52 2024
+// Date        : Wed Apr 24 22:53:04 2024
 // Host        : ben_laptop running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               c:/Users/benap/github/fpga_proc_gen/fpga_proc_gen.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
@@ -15,36 +15,37 @@
 
 (* NotValidForBitStream *)
 module clk_wiz_0
-   (clk_out1,
+   (pixel_clk,
     reset,
-    clk_in1);
-  output clk_out1;
+    board_clk);
+  output pixel_clk;
   input reset;
-  input clk_in1;
+  input board_clk;
 
-  (* IBUF_LOW_PWR *) wire clk_in1;
-  wire clk_out1;
+  (* IBUF_LOW_PWR *) wire board_clk;
+  wire pixel_clk;
   wire reset;
 
   clk_wiz_0_clk_wiz inst
-       (.clk_in1(clk_in1),
-        .clk_out1(clk_out1),
+       (.board_clk(board_clk),
+        .pixel_clk(pixel_clk),
         .reset(reset));
 endmodule
 
 module clk_wiz_0_clk_wiz
-   (clk_out1,
+   (pixel_clk,
     reset,
-    clk_in1);
-  output clk_out1;
+    board_clk);
+  output pixel_clk;
   input reset;
-  input clk_in1;
+  input board_clk;
 
-  wire clk_in1;
-  wire clk_in1_clk_wiz_0;
-  wire clk_out1;
-  wire clk_out1_clk_wiz_0;
+  wire board_clk;
+  wire board_clk_clk_wiz_0;
+  wire clkfbout_buf_clk_wiz_0;
   wire clkfbout_clk_wiz_0;
+  wire pixel_clk;
+  wire pixel_clk_clk_wiz_0;
   wire reset;
   wire NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED;
   wire NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED;
@@ -65,18 +66,22 @@ module clk_wiz_0_clk_wiz
   wire [15:0]NLW_mmcm_adv_inst_DO_UNCONNECTED;
 
   (* BOX_TYPE = "PRIMITIVE" *) 
+  BUFG clkf_buf
+       (.I(clkfbout_clk_wiz_0),
+        .O(clkfbout_buf_clk_wiz_0));
+  (* BOX_TYPE = "PRIMITIVE" *) 
   (* CAPACITANCE = "DONT_CARE" *) 
   (* IBUF_DELAY_VALUE = "0" *) 
   (* IFD_DELAY_VALUE = "AUTO" *) 
   IBUF #(
     .IOSTANDARD("DEFAULT")) 
     clkin1_ibufg
-       (.I(clk_in1),
-        .O(clk_in1_clk_wiz_0));
+       (.I(board_clk),
+        .O(board_clk_clk_wiz_0));
   (* BOX_TYPE = "PRIMITIVE" *) 
   BUFG clkout1_buf
-       (.I(clk_out1_clk_wiz_0),
-        .O(clk_out1));
+       (.I(pixel_clk_clk_wiz_0),
+        .O(pixel_clk));
   (* BOX_TYPE = "PRIMITIVE" *) 
   MMCME2_ADV #(
     .BANDWIDTH("OPTIMIZED"),
@@ -114,7 +119,7 @@ module clk_wiz_0_clk_wiz
     .CLKOUT6_DUTY_CYCLE(0.500000),
     .CLKOUT6_PHASE(0.000000),
     .CLKOUT6_USE_FINE_PS("FALSE"),
-    .COMPENSATION("INTERNAL"),
+    .COMPENSATION("ZHOLD"),
     .DIVCLK_DIVIDE(4),
     .IS_CLKINSEL_INVERTED(1'b0),
     .IS_PSEN_INVERTED(1'b0),
@@ -128,15 +133,15 @@ module clk_wiz_0_clk_wiz
     .SS_MOD_PERIOD(10000),
     .STARTUP_WAIT("FALSE")) 
     mmcm_adv_inst
-       (.CLKFBIN(clkfbout_clk_wiz_0),
+       (.CLKFBIN(clkfbout_buf_clk_wiz_0),
         .CLKFBOUT(clkfbout_clk_wiz_0),
         .CLKFBOUTB(NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED),
         .CLKFBSTOPPED(NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED),
-        .CLKIN1(clk_in1_clk_wiz_0),
+        .CLKIN1(board_clk_clk_wiz_0),
         .CLKIN2(1'b0),
         .CLKINSEL(1'b1),
         .CLKINSTOPPED(NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED),
-        .CLKOUT0(clk_out1_clk_wiz_0),
+        .CLKOUT0(pixel_clk_clk_wiz_0),
         .CLKOUT0B(NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED),
         .CLKOUT1(NLW_mmcm_adv_inst_CLKOUT1_UNCONNECTED),
         .CLKOUT1B(NLW_mmcm_adv_inst_CLKOUT1B_UNCONNECTED),

@@ -19,26 +19,16 @@ architecture behavior of main is
     
     component clk_wiz_0 is
         port (
-            clk_in1, reset : in std_logic;
-            clk_out1 : out std_logic
-        );
-    end component;
-    
-    component pixel_instancer is
-        generic (
-            width : natural := 2250
-        );
-        port (
-            sx, sy : in unsigned(11 downto 0);
-            px, py : in signed(31 downto 0);
-            x_even, x_odd, y : out signed(31 downto 0)
+            board_clk, reset : in std_logic;
+            pixel_clk : out std_logic
         );
     end component;
     
     component perlin_noise is
         port (
             clk : in std_logic;
-            x, y : in signed(31 downto 0);
+            sx, sy : in unsigned(11 downto 0);
+            posx, posy : in signed(31 downto 0); -- +15.16
             seed : in std_logic_vector(31 downto 0);
             value : out signed(18 downto 0) -- +2.16
         );
@@ -59,6 +49,8 @@ architecture behavior of main is
     signal reset, enable : std_logic;
     
     signal pixel_clk : std_logic;
+    signal nclk0 : std_logic := '1';
+    signal nclk1, nclk2, nclk3 : std_logic := '0';
     signal sx, sy : unsigned(11 downto 0) := (others => '0');
     signal inbounds : boolean;
     signal hsync, vsync : std_logic;
@@ -67,37 +59,41 @@ architecture behavior of main is
     constant speed : natural := 4;
     signal px, py : signed(31 downto 0) := (others => '0');
     
-    signal x_even, x_odd, y : signed(31 downto 0);
-    signal v_even, v_odd, v : signed(18 downto 0); -- +2.16
+    signal v, v01, v23, v0, v1, v2, v3 : signed(18 downto 0); -- +2.16
     
 begin
     
     reset <= not cpu_reset;
     enable <= not sw(15);
     
-    clk_transform: clk_wiz_0 port map (
-        clk_in1 => clk, -- 100 MHz
-        reset => reset,
-        clk_out1 => pixel_clk -- 148.5 MHz
-    );
-    
-    
+    clk_transform: clk_wiz_0 port map ( clk, reset, pixel_clk );
     process (pixel_clk)
     begin if rising_edge(pixel_clk) then
         if reset = '1' then
             sx <= (others => '0');
             sy <= (others => '0');
+            nclk0 <= '1';
+            nclk1 <= '0';
+            nclk2 <= '0';
+            nclk3 <= '0';
         elsif enable = '1' then
-            if sx = width + h_front_porch + h_sync_width + h_back_porch then
-                sx <= (others => '0');
-                if sy = height + v_front_porch + v_sync_width + v_back_porch then
-                    sy <= (others => '0');
-                else
-                    sy <= sy + 1;
+            if sx = width + h_front_porch + h_sync_width + h_back_porch - 1 then
+                if nclk3 = '1' then
+                    sx <= (others => '0');
+                    if sy = height + v_front_porch + v_sync_width + v_back_porch - 1 then
+                        sy <= (others => '0');
+                    else
+                        sy <= sy + 1;
+                    end if;
                 end if;
             else
                 sx <= sx + 1;
             end if;
+            
+            nclk0 <= nclk3;
+            nclk1 <= nclk0;
+            nclk2 <= nclk1;
+            nclk3 <= nclk2;
         end if;
     end if; end process;
     
@@ -139,38 +135,15 @@ begin
     end if; end process;
     
     
+    n0: perlin_noise port map ( nclk0, sx, sy, px, py, seed, v0 );
+    n1: perlin_noise port map ( nclk1, sx, sy, px, py, seed, v1 );
+    n2: perlin_noise port map ( nclk2, sx, sy, px, py, seed, v2 );
+    n3: perlin_noise port map ( nclk3, sx, sy, px, py, seed, v3 );
     
-    pi: pixel_instancer
-        generic map (
-            width => width + h_front_porch + h_sync_width + h_back_porch
-        )
-        port map (
-            sx => sx,
-            sy => sy,
-            px => px,
-            py => py,
-            x_even => x_even,
-            x_odd => x_odd,
-            y => y
-        );
     
-    n_even: perlin_noise port map (
-        clk => not sx(0),
-        x => x_even(23 downto 0) & "00000000",
-        y => y(23 downto 0) & "00000000",
-        seed => seed,
-        value => v_even
-    );
-    
-    n_odd: perlin_noise port map (
-        clk => sx(0),
-        x => x_odd(23 downto 0) & "00000000",
-        y => y(23 downto 0) & "00000000",
-        seed => seed,
-        value => v_odd
-    );
-    
-    v <= v_even when sx(0) = '0' else v_odd;
+    v01 <= v0 when sx(0) = '0' else v1;
+    v23 <= v2 when sx(0) = '0' else v3;
+    v <= v01 when sx(1) = '0' else v23;
     
     r <= unsigned((not v(18)) & v(15 downto 13));
     g <= unsigned((not v(18)) & v(15 downto 13));

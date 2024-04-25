@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_perlin_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_perlin" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="685.250 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,118.451 ns"></ZoomEndTime>
+      <Cursor1Time time="662.391 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="169"></NameColumnWidth>
+      <ValueColumnWidth column_width="90"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="87" />
+   <wvobject fp_name="/tb_perlin/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/x" type="other">
+      <obj_property name="ElementShortName">x</obj_property>
+      <obj_property name="ObjectShortName">x</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/sx" type="array">
+      <obj_property name="ElementShortName">sx[11:0]</obj_property>
+      <obj_property name="ObjectShortName">sx[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/sy" type="array">
+      <obj_property name="ElementShortName">sy[11:0]</obj_property>
+      <obj_property name="ObjectShortName">sy[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/posx" type="array">
+      <obj_property name="ElementShortName">posx[31:0]</obj_property>
+      <obj_property name="ObjectShortName">posx[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/posy" type="array">
+      <obj_property name="ElementShortName">posy[31:0]</obj_property>
+      <obj_property name="ObjectShortName">posy[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/seed" type="array">
+      <obj_property name="ElementShortName">seed[31:0]</obj_property>
+      <obj_property name="ObjectShortName">seed[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/value" type="array">
+      <obj_property name="ElementShortName">value[18:0]</obj_property>
+      <obj_property name="ObjectShortName">value[18:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/x_next" type="array">
+      <obj_property name="ElementShortName">x_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/y_next" type="array">
+      <obj_property name="ElementShortName">y_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/x_nowrap" type="array">
+      <obj_property name="ElementShortName">x_nowrap[11:0]</obj_property>
+      <obj_property name="ObjectShortName">x_nowrap[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/x_ahead" type="array">
+      <obj_property name="ElementShortName">x_ahead[11:0]</obj_property>
+      <obj_property name="ObjectShortName">x_ahead[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/y_ahead" type="array">
+      <obj_property name="ElementShortName">y_ahead[11:0]</obj_property>
+      <obj_property name="ObjectShortName">y_ahead[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/edge" type="other">
+      <obj_property name="ElementShortName">edge</obj_property>
+      <obj_property name="ObjectShortName">edge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/x" type="array">
+      <obj_property name="ElementShortName">x[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/y" type="array">
+      <obj_property name="ElementShortName">y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/xf" type="array">
+      <obj_property name="ElementShortName">xf[15:0]</obj_property>
+      <obj_property name="ObjectShortName">xf[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/yf" type="array">
+      <obj_property name="ElementShortName">yf[15:0]</obj_property>
+      <obj_property name="ObjectShortName">yf[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/xc" type="array">
+      <obj_property name="ElementShortName">xc[15:0]</obj_property>
+      <obj_property name="ObjectShortName">xc[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/yc" type="array">
+      <obj_property name="ElementShortName">yc[15:0]</obj_property>
+      <obj_property name="ObjectShortName">yc[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/agx_next" type="array">
+      <obj_property name="ElementShortName">agx_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">agx_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/agy_next" type="array">
+      <obj_property name="ElementShortName">agy_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">agy_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/bgx_next" type="array">
+      <obj_property name="ElementShortName">bgx_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">bgx_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/bgy_next" type="array">
+      <obj_property name="ElementShortName">bgy_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">bgy_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/cgx_next" type="array">
+      <obj_property name="ElementShortName">cgx_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cgx_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/cgy_next" type="array">
+      <obj_property name="ElementShortName">cgy_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cgy_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dgx_next" type="array">
+      <obj_property name="ElementShortName">dgx_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dgx_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dgy_next" type="array">
+      <obj_property name="ElementShortName">dgy_next[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dgy_next[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/px_next" type="array">
+      <obj_property name="ElementShortName">px_next[16:0]</obj_property>
+      <obj_property name="ObjectShortName">px_next[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/py_next" type="array">
+      <obj_property name="ElementShortName">py_next[16:0]</obj_property>
+      <obj_property name="ObjectShortName">py_next[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/nx_next" type="array">
+      <obj_property name="ElementShortName">nx_next[16:0]</obj_property>
+      <obj_property name="ObjectShortName">nx_next[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/ny_next" type="array">
+      <obj_property name="ElementShortName">ny_next[16:0]</obj_property>
+      <obj_property name="ObjectShortName">ny_next[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/px2_next" type="array">
+      <obj_property name="ElementShortName">px2_next[33:0]</obj_property>
+      <obj_property name="ObjectShortName">px2_next[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/py2_next" type="array">
+      <obj_property name="ElementShortName">py2_next[33:0]</obj_property>
+      <obj_property name="ObjectShortName">py2_next[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/nx2_next" type="array">
+      <obj_property name="ElementShortName">nx2_next[33:0]</obj_property>
+      <obj_property name="ObjectShortName">nx2_next[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/ny2_next" type="array">
+      <obj_property name="ElementShortName">ny2_next[33:0]</obj_property>
+      <obj_property name="ObjectShortName">ny2_next[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/agx" type="array">
+      <obj_property name="ElementShortName">agx[15:0]</obj_property>
+      <obj_property name="ObjectShortName">agx[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/agy" type="array">
+      <obj_property name="ElementShortName">agy[15:0]</obj_property>
+      <obj_property name="ObjectShortName">agy[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/bgx" type="array">
+      <obj_property name="ElementShortName">bgx[15:0]</obj_property>
+      <obj_property name="ObjectShortName">bgx[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/bgy" type="array">
+      <obj_property name="ElementShortName">bgy[15:0]</obj_property>
+      <obj_property name="ObjectShortName">bgy[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/cgx" type="array">
+      <obj_property name="ElementShortName">cgx[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cgx[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/cgy" type="array">
+      <obj_property name="ElementShortName">cgy[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cgy[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dgx" type="array">
+      <obj_property name="ElementShortName">dgx[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dgx[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dgy" type="array">
+      <obj_property name="ElementShortName">dgy[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dgy[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/px" type="array">
+      <obj_property name="ElementShortName">px[16:0]</obj_property>
+      <obj_property name="ObjectShortName">px[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/py" type="array">
+      <obj_property name="ElementShortName">py[16:0]</obj_property>
+      <obj_property name="ObjectShortName">py[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/nx" type="array">
+      <obj_property name="ElementShortName">nx[16:0]</obj_property>
+      <obj_property name="ObjectShortName">nx[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/ny" type="array">
+      <obj_property name="ElementShortName">ny[16:0]</obj_property>
+      <obj_property name="ObjectShortName">ny[16:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/px2" type="array">
+      <obj_property name="ElementShortName">px2[33:0]</obj_property>
+      <obj_property name="ObjectShortName">px2[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/py2" type="array">
+      <obj_property name="ElementShortName">py2[33:0]</obj_property>
+      <obj_property name="ObjectShortName">py2[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/nx2" type="array">
+      <obj_property name="ElementShortName">nx2[33:0]</obj_property>
+      <obj_property name="ObjectShortName">nx2[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/ny2" type="array">
+      <obj_property name="ElementShortName">ny2[33:0]</obj_property>
+      <obj_property name="ObjectShortName">ny2[33:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fa" type="array">
+      <obj_property name="ElementShortName">fa[17:0]</obj_property>
+      <obj_property name="ObjectShortName">fa[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fb" type="array">
+      <obj_property name="ElementShortName">fb[17:0]</obj_property>
+      <obj_property name="ObjectShortName">fb[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fc" type="array">
+      <obj_property name="ElementShortName">fc[17:0]</obj_property>
+      <obj_property name="ObjectShortName">fc[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fd" type="array">
+      <obj_property name="ElementShortName">fd[17:0]</obj_property>
+      <obj_property name="ObjectShortName">fd[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_ax" type="array">
+      <obj_property name="ElementShortName">dot_ax[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_ax[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_ay" type="array">
+      <obj_property name="ElementShortName">dot_ay[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_ay[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_bx" type="array">
+      <obj_property name="ElementShortName">dot_bx[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_bx[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_by" type="array">
+      <obj_property name="ElementShortName">dot_by[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_by[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_cx" type="array">
+      <obj_property name="ElementShortName">dot_cx[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_cx[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_cy" type="array">
+      <obj_property name="ElementShortName">dot_cy[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_cy[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_dx" type="array">
+      <obj_property name="ElementShortName">dot_dx[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_dx[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_dy" type="array">
+      <obj_property name="ElementShortName">dot_dy[32:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_dy[32:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fa2_next" type="array">
+      <obj_property name="ElementShortName">fa2_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fa2_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fb2_next" type="array">
+      <obj_property name="ElementShortName">fb2_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fb2_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fc2_next" type="array">
+      <obj_property name="ElementShortName">fc2_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fc2_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fd2_next" type="array">
+      <obj_property name="ElementShortName">fd2_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fd2_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_a_next" type="array">
+      <obj_property name="ElementShortName">dot_a_next[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_a_next[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_b_next" type="array">
+      <obj_property name="ElementShortName">dot_b_next[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_b_next[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_c_next" type="array">
+      <obj_property name="ElementShortName">dot_c_next[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_c_next[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_d_next" type="array">
+      <obj_property name="ElementShortName">dot_d_next[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_d_next[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fa2" type="array">
+      <obj_property name="ElementShortName">fa2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fa2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fb2" type="array">
+      <obj_property name="ElementShortName">fb2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fb2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fc2" type="array">
+      <obj_property name="ElementShortName">fc2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fc2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/fd2" type="array">
+      <obj_property name="ElementShortName">fd2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fd2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_a" type="array">
+      <obj_property name="ElementShortName">dot_a[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_a[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_b" type="array">
+      <obj_property name="ElementShortName">dot_b[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_b[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_c" type="array">
+      <obj_property name="ElementShortName">dot_c[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_c[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dot_d" type="array">
+      <obj_property name="ElementShortName">dot_d[17:0]</obj_property>
+      <obj_property name="ObjectShortName">dot_d[17:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/av" type="array">
+      <obj_property name="ElementShortName">av[34:0]</obj_property>
+      <obj_property name="ObjectShortName">av[34:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/bv" type="array">
+      <obj_property name="ElementShortName">bv[34:0]</obj_property>
+      <obj_property name="ObjectShortName">bv[34:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/cv" type="array">
+      <obj_property name="ElementShortName">cv[34:0]</obj_property>
+      <obj_property name="ObjectShortName">cv[34:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/dv" type="array">
+      <obj_property name="ElementShortName">dv[34:0]</obj_property>
+      <obj_property name="ObjectShortName">dv[34:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/value_next" type="array">
+      <obj_property name="ElementShortName">value_next[18:0]</obj_property>
+      <obj_property name="ObjectShortName">value_next[18:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/value_out" type="array">
+      <obj_property name="ElementShortName">value_out[18:0]</obj_property>
+      <obj_property name="ObjectShortName">value_out[18:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_perlin/p/s" type="array">
+      <obj_property name="ElementShortName">s[1:0]</obj_property>
+      <obj_property name="ObjectShortName">s[1:0]</obj_property>
+   </wvobject>
+</wave_config>
