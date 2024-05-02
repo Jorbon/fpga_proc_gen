@@ -11,27 +11,32 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="24,920.500 ns"></ZoomStartTime>
-      <ZoomEndTime time="25,000.101 ns"></ZoomEndTime>
-      <Cursor1Time time="19,847.850 ns"></Cursor1Time>
+      <ZoomStartTime time="13,649.558 ns"></ZoomStartTime>
+      <ZoomEndTime time="13,786.559 ns"></ZoomEndTime>
+      <Cursor1Time time="13,784.958 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="157"></NameColumnWidth>
-      <ValueColumnWidth column_width="78"></ValueColumnWidth>
+      <ValueColumnWidth column_width="74"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="32" />
-   <wvobject fp_name="/tb/m/sx" type="array">
-      <obj_property name="ElementShortName">sx[11:0]</obj_property>
-      <obj_property name="ObjectShortName">sx[11:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   <WVObjectSize size="27" />
+   <wvobject fp_name="/tb/m/pixel_clk" type="logic">
+      <obj_property name="ElementShortName">pixel_clk</obj_property>
+      <obj_property name="ObjectShortName">pixel_clk</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/vga_r" type="array">
       <obj_property name="ElementShortName">vga_r[3:0]</obj_property>
       <obj_property name="ObjectShortName">vga_r[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb/m/vga_hs" type="logic">
-      <obj_property name="ElementShortName">vga_hs</obj_property>
-      <obj_property name="ObjectShortName">vga_hs</obj_property>
+   <wvobject fp_name="/tb/m/sx" type="array">
+      <obj_property name="ElementShortName">sx[11:0]</obj_property>
+      <obj_property name="ObjectShortName">sx[11:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/m/n0/x_ahead" type="array">
+      <obj_property name="ElementShortName">x_ahead[11:0]</obj_property>
+      <obj_property name="ObjectShortName">x_ahead[11:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/n0/x" type="array">
       <obj_property name="ElementShortName">x[31:0]</obj_property>
@@ -65,45 +70,29 @@
       <obj_property name="radix_fractionWidth">8</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb/m/pixel_clk" type="logic">
-      <obj_property name="ElementShortName">pixel_clk</obj_property>
-      <obj_property name="ObjectShortName">pixel_clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb/m/clk_transform/nclk0" type="logic">
-      <obj_property name="ElementShortName">nclk0</obj_property>
-      <obj_property name="ObjectShortName">nclk0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb/m/clk_transform/nclk1" type="logic">
-      <obj_property name="ElementShortName">nclk1</obj_property>
-      <obj_property name="ObjectShortName">nclk1</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb/m/clk_transform/nclk2" type="logic">
-      <obj_property name="ElementShortName">nclk2</obj_property>
-      <obj_property name="ObjectShortName">nclk2</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb/m/clk_transform/nclk3" type="logic">
-      <obj_property name="ElementShortName">nclk3</obj_property>
-      <obj_property name="ObjectShortName">nclk3</obj_property>
-   </wvobject>
    <wvobject fp_name="/tb/m/v" type="array">
-      <obj_property name="ElementShortName">v[18:0]</obj_property>
-      <obj_property name="ObjectShortName">v[18:0]</obj_property>
+      <obj_property name="ElementShortName">v[16:0]</obj_property>
+      <obj_property name="ObjectShortName">v[16:0]</obj_property>
+      <obj_property name="Radix">REALRADIX</obj_property>
+      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
+      <obj_property name="radix_fractionWidth">14</obj_property>
+      <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/v0" type="array">
-      <obj_property name="ElementShortName">v0[18:0]</obj_property>
-      <obj_property name="ObjectShortName">v0[18:0]</obj_property>
+      <obj_property name="ElementShortName">v0[16:0]</obj_property>
+      <obj_property name="ObjectShortName">v0[16:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/v1" type="array">
-      <obj_property name="ElementShortName">v1[18:0]</obj_property>
-      <obj_property name="ObjectShortName">v1[18:0]</obj_property>
+      <obj_property name="ElementShortName">v1[16:0]</obj_property>
+      <obj_property name="ObjectShortName">v1[16:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/v2" type="array">
-      <obj_property name="ElementShortName">v2[18:0]</obj_property>
-      <obj_property name="ObjectShortName">v2[18:0]</obj_property>
+      <obj_property name="ElementShortName">v2[16:0]</obj_property>
+      <obj_property name="ObjectShortName">v2[16:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/v3" type="array">
-      <obj_property name="ElementShortName">v3[18:0]</obj_property>
-      <obj_property name="ObjectShortName">v3[18:0]</obj_property>
+      <obj_property name="ElementShortName">v3[16:0]</obj_property>
+      <obj_property name="ObjectShortName">v3[16:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/n0/x_next" type="array">
       <obj_property name="ElementShortName">x_next[31:0]</obj_property>
@@ -113,11 +102,6 @@
    <wvobject fp_name="/tb/m/n0/x_nowrap" type="array">
       <obj_property name="ElementShortName">x_nowrap[11:0]</obj_property>
       <obj_property name="ObjectShortName">x_nowrap[11:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb/m/n0/x_ahead" type="array">
-      <obj_property name="ElementShortName">x_ahead[11:0]</obj_property>
-      <obj_property name="ObjectShortName">x_ahead[11:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb/m/n0/x" type="array">

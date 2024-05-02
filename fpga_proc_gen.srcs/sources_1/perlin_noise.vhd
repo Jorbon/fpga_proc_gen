@@ -78,10 +78,10 @@ begin
     nx_next <= '1' & x(15 downto 0);
     ny_next <= '1' & y(15 downto 0);
     
-    px2_next <= unsigned(px * px);
-    py2_next <= unsigned(py * py);
-    nx2_next <= unsigned(nx * nx);
-    ny2_next <= unsigned(ny * ny);
+    px2_next <= unsigned(px_next * px_next);
+    py2_next <= unsigned(py_next * py_next);
+    nx2_next <= unsigned(nx_next * nx_next);
+    ny2_next <= unsigned(ny_next * ny_next);
     
     
     
