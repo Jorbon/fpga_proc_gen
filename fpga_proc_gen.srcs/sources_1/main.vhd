@@ -24,7 +24,18 @@ architecture behavior of main is
         );
     end component;
     
+    component hash_function is
+        port (
+            x, y : in signed(15 downto 0); -- +15.
+            seed : in std_logic_vector(31 downto 0);
+            gx, gy : out signed(15 downto 0) -- +.15
+        );
+    end component;
+    
     component perlin_noise is
+        generic (
+            octave : integer := 0
+        );
         port (
             clk : in std_logic;
             sx, sy : in unsigned(11 downto 0);
@@ -33,8 +44,6 @@ architecture behavior of main is
             value : out signed(18 downto 0) -- +2.16
         );
     end component;
-    
-    constant seed : std_logic_vector(31 downto 0) := "00100001110100111101111010010110";
     
     constant width : natural := 1920;
     constant height : natural := 1080;
@@ -45,6 +54,9 @@ architecture behavior of main is
     constant v_sync_width : natural := 5;
     constant v_back_porch : natural := 36;
     
+    signal seed : std_logic_vector(31 downto 0) := "00100001110100111101111010010110";
+    signal next_seed : signed(31 downto 0);
+    signal btn_center_last : std_logic := '0';
     
     signal reset, enable : std_logic;
     
@@ -59,12 +71,21 @@ architecture behavior of main is
     constant speed : natural := 4;
     signal px, py : signed(31 downto 0) := (others => '0');
     
-    signal v, v01, v23, v0, v1, v2, v3 : signed(18 downto 0); -- +2.16
+    signal vn0, vn1, vn2, vn3, vo0, vo1, vo2, vo3, vp0, vp1, vp2, vp3 : signed(18 downto 0); -- +2.16
+    signal v, v01, v23, v0, v1, v2, v3 : signed(16 downto 0);
     
 begin
     
     reset <= not cpu_reset;
     enable <= not sw(15);
+    
+    ns: hash_function port map (
+        x => signed(seed(31 downto 16)),
+        y => signed(seed(15 downto 0)),
+        seed => "01010110111110010111100101101001",
+        gx => next_seed(15 downto 0),
+        gy => next_seed(31 downto 16)
+    );
     
     clk_transform: clk_wiz_0 port map ( clk, reset, pixel_clk );
     process (pixel_clk)
@@ -131,23 +152,41 @@ begin
             elsif btn_up = '1' and btn_down = '0' then
                 py <= py - speed;
             end if;
+            if btn_center = '1' and btn_center_last = '0' then
+                seed <= std_logic_vector(next_seed);
+            end if;
+            btn_center_last <= btn_center;
         end if;
     end if; end process;
     
     
-    n0: perlin_noise port map ( nclk0, sx, sy, px, py, seed, v0 );
-    n1: perlin_noise port map ( nclk1, sx, sy, px, py, seed, v1 );
-    n2: perlin_noise port map ( nclk2, sx, sy, px, py, seed, v2 );
-    n3: perlin_noise port map ( nclk3, sx, sy, px, py, seed, v3 );
+    n0: perlin_noise generic map ( octave => 0 ) port map ( nclk0, sx, sy, px, py, seed, vn0 );
+    n1: perlin_noise generic map ( octave => 0 ) port map ( nclk1, sx, sy, px, py, seed, vn1 );
+    n2: perlin_noise generic map ( octave => 0 ) port map ( nclk2, sx, sy, px, py, seed, vn2 );
+    n3: perlin_noise generic map ( octave => 0 ) port map ( nclk3, sx, sy, px, py, seed, vn3 );
     
+    o0: perlin_noise generic map ( octave => 1 ) port map ( nclk0, sx, sy, px, py, seed, vo0 );
+    o1: perlin_noise generic map ( octave => 1 ) port map ( nclk1, sx, sy, px, py, seed, vo1 );
+    o2: perlin_noise generic map ( octave => 1 ) port map ( nclk2, sx, sy, px, py, seed, vo2 );
+    o3: perlin_noise generic map ( octave => 1 ) port map ( nclk3, sx, sy, px, py, seed, vo3 );
+    
+    p0: perlin_noise generic map ( octave => 2 ) port map ( nclk0, sx, sy, px, py, seed, vp0 );
+    p1: perlin_noise generic map ( octave => 2 ) port map ( nclk1, sx, sy, px, py, seed, vp1 );
+    p2: perlin_noise generic map ( octave => 2 ) port map ( nclk2, sx, sy, px, py, seed, vp2 );
+    p3: perlin_noise generic map ( octave => 2 ) port map ( nclk3, sx, sy, px, py, seed, vp3 );
+    
+    v0 <= (vn0(18) & vn0(15 downto 0)) + (vo0(18) & vo0(16 downto 1)) + vp0(18 downto 2);
+    v1 <= (vn1(18) & vn1(15 downto 0)) + (vo1(18) & vo1(16 downto 1)) + vp1(18 downto 2);
+    v2 <= (vn2(18) & vn2(15 downto 0)) + (vo2(18) & vo2(16 downto 1)) + vp2(18 downto 2);
+    v3 <= (vn3(18) & vn3(15 downto 0)) + (vo3(18) & vo3(16 downto 1)) + vp3(18 downto 2);
     
     v01 <= v0 when sx(0) = '0' else v1;
     v23 <= v2 when sx(0) = '0' else v3;
     v <= v01 when sx(1) = '0' else v23;
     
-    r <= unsigned((not v(18)) & v(15 downto 13));
-    g <= unsigned((not v(18)) & v(15 downto 13));
-    b <= unsigned((not v(18)) & v(15 downto 13));
+    r <= unsigned((not v(16)) & v(15 downto 13));
+    g <= unsigned((not v(16)) & v(15 downto 13));
+    b <= unsigned((not v(16)) & v(15 downto 13));
     
     vga_r <= std_logic_vector(r) when inbounds else "0000";
     vga_g <= std_logic_vector(g) when inbounds else "0000";

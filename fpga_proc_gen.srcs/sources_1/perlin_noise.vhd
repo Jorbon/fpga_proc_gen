@@ -3,6 +3,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity perlin_noise is
+    generic (
+        octave : integer := 0
+    );
     port (
         clk : in std_logic;
         sx, sy : in unsigned(11 downto 0);
@@ -122,8 +125,8 @@ begin
     
     process (clk)
     begin if rising_edge(clk) then
-        x <= x_next sll 8;
-        y <= y_next sll 8;
+        x <= x_next sll (octave + 8);
+        y <= y_next sll (octave + 8);
         
         agx <= agx_next;
         agy <= agy_next;
